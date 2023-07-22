@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script> <!-- Include D3.js library -->
 </head>
 <body>
     <header>
@@ -16,10 +17,30 @@
     </header>
 
     <!-- Your main content goes here -->
+    <div id="csvData">Loading...</div>
 
     <footer>
         <p>Contact me at: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
         <p>Follow me on social media: <a href="#">Twitter</a> | <a href="#">LinkedIn</a></p>
     </footer>
+
+    <script>
+        // Use D3.js to load the CSV data
+        d3.csv("csv/review.csv").then(function(data) {
+            // Clear the loading text
+            document.getElementById('csvData').innerHTML = '';
+
+            // Loop through each row in the CSV
+            data.forEach(function(row) {
+                // Create a new paragraph for each row and add it to the div
+                var p = document.createElement('p');
+                p.textContent = JSON.stringify(row);
+                document.getElementById('csvData').appendChild(p);
+            });
+        }).catch(function(error) {
+            // If there's an error, log it to the console
+            console.error('Error loading CSV:', error);
+        });
+    </script>
 </body>
 </html>
