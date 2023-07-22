@@ -6,8 +6,13 @@
 </head>
 <body>
     <header>
-        <h1>Yokohama ReviewRanker</h1>
+        <h1>ReviewRanker</h1>
     </header>
+
+    <div id="citySwitch">
+        <button onclick="loadData('yokohama')">Yokohama</button>
+        <button onclick="loadData('kawasaki')">Kawasaki</button>
+    </div>
 
     <!-- Your main content goes here -->
     <form onsubmit="event.preventDefault(); sortData();">
@@ -48,15 +53,20 @@
         var currentPage = 0;
         var itemsPerPage = 50;
 
-        // Use D3.js to load the CSV data
-        d3.csv("csv/review_yokohama.csv").then(function(data) {
-            allData = data;
-            displayData(data.slice(0, itemsPerPage));
-            checkButtonStatus();
-        }).catch(function(error) {
-            // If there's an error, log it to the console
-            console.error('Error loading CSV:', error);
-        });
+        function loadData(city) {
+            // Use D3.js to load the CSV data
+            d3.csv(`csv/review_${city}.csv`).then(function(data) {
+                allData = data;
+                displayData(data.slice(0, itemsPerPage));
+                checkButtonStatus();
+            }).catch(function(error) {
+                // If there's an error, log it to the console
+                console.error('Error loading CSV:', error);
+            });
+        }
+
+        // Load Yokohama data by default
+        loadData('yokohama');
 
         function displayData(data) {
             // Get the table body
