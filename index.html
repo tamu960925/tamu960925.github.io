@@ -49,7 +49,7 @@
         var itemsPerPage = 50;
 
         // Use D3.js to load the CSV data
-        d3.csv("csv/review.csv").then(function(data) {
+        d3.csv("csv/review_yokohama.csv").then(function(data) {
             allData = data;
             displayData(data.slice(0, itemsPerPage));
             checkButtonStatus();
