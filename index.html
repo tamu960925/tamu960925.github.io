@@ -3,32 +3,87 @@
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <style>
-        /* Add a CSS rule to break long words and overflow text */
-        td {
-            word-wrap: break-word;
-            max-width: 200px; /* Adjust as needed */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        header {
+            background-color: #333;
+            color: white;
             padding: 10px;
+            text-align: center;
+        }
+        table {
+            margin: auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        td, th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            word-wrap: break-word;
+            max-width: 200px;
         }
         th {
-            background-color: #f2f2f2;
-            padding: 10px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
         }
         tr:nth-child(even) {
             background-color: #f2f2f2;
+        }
+        form {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
     <script src="https://d3js.org/d3.v5.min.js"></script> <!-- Include D3.js library -->
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+        <h1>Review-Rank</h1>
     </header>
 
     <!-- Your main content goes here -->
+    <form onsubmit="event.preventDefault(); filterData();">
+        <fieldset>
+            <legend>Filter Reviews</legend>
+            <label for="filterRating">Minimum rating:</label>
+            <input type="number" id="filterRating" step="0.1" min="0" max="5" placeholder="4.2">
+            <label for="filterReviews">Minimum number of reviews:</label>
+            <input type="number" id="filterReviews" min="0" placeholder="10000">
+            <button type="submit">Apply Filters</button>
+        </fieldset>
+    </form>
     <table id="csvData">
         <thead>
             <tr>
@@ -43,15 +98,26 @@
     </table>
 
     <footer>
-        <p>Contact me at: <a href="mailto:tamu960925@gmail.com">tamu960925@gmail.com</a></p>
-        <p>Follow me on social media: <a href="#">Twitter</a> | <a href="#">LinkedIn</a></p>
+        <p>Contact me at: <a href="mailto:tamu960925@gmail.com" style="color: #f2f2f2;">tamu960925@gmail.com</a></p>
+        <p>Follow me on social media: <a href="#" style="color: #f2f2f2;">Twitter</a> | <a href="#" style="color: #f2f2f2;">LinkedIn</a></p>
     </footer>
 
     <script>
+        var allData = [];
+
         // Use D3.js to load the CSV data
         d3.csv("csv/review.csv").then(function(data) {
+            allData = data;
+            displayData(data);
+        }).catch(function(error) {
+            // If there's an error, log it to the console
+            console.error('Error loading CSV:', error);
+        });
+
+        function displayData(data) {
             // Get the table body
             var tbody = document.querySelector('#csvData tbody');
+            tbody.innerHTML = '';
 
             // Loop through each row in the CSV
             data.forEach(function(row) {
@@ -60,11 +126,16 @@
                 tr.innerHTML = `<td>${row["場所"]}</td><td>${row["評価"]}</td><td>${row["レビュー数"]}</td>`;
                 tbody.appendChild(tr);
             });
-        }).catch(function(error) {
-            // If there's an error, log it to the console
-            console.error('Error loading CSV:', error);
-        });
+        }
+
+        function filterData() {
+            var filterRating = parseFloat(document.getElementById('filterRating').value);
+            var filterReviews = parseInt(document.getElementById('filterReviews').value);
+            var filteredData = allData.filter(function(row) {
+                return parseFloat(row["評価"]) >= filterRating && parseInt(row["レビュー数"]) >= filterReviews;
+            });
+            displayData(filteredData);
+        }
     </script>
 </body>
 </html>
-
