@@ -2,40 +2,63 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <style>
+        /* Add a CSS rule to break long words and overflow text */
+        td {
+            word-wrap: break-word;
+            max-width: 200px; /* Adjust as needed */
+            padding: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
     <script src="https://d3js.org/d3.v5.min.js"></script> <!-- Include D3.js library -->
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#resume">Resume</a></li>
-                <li><a href="#blog">Blog</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <!-- Your main content goes here -->
-    <div id="csvData">Loading...</div>
+    <table id="csvData">
+        <thead>
+            <tr>
+                <th>場所</th>
+                <th>評価</th>
+                <th>レビュー数</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be added here -->
+        </tbody>
+    </table>
 
     <footer>
-        <p>Contact me at: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+        <p>Contact me at: <a href="mailto:tamu960925@gmail.com">tamu960925@gmail.com</a></p>
         <p>Follow me on social media: <a href="#">Twitter</a> | <a href="#">LinkedIn</a></p>
     </footer>
 
     <script>
         // Use D3.js to load the CSV data
         d3.csv("csv/review.csv").then(function(data) {
-            // Clear the loading text
-            document.getElementById('csvData').innerHTML = '';
+            // Get the table body
+            var tbody = document.querySelector('#csvData tbody');
 
             // Loop through each row in the CSV
             data.forEach(function(row) {
-                // Create a new paragraph for each row and add it to the div
-                var p = document.createElement('p');
-                p.textContent = JSON.stringify(row);
-                document.getElementById('csvData').appendChild(p);
+                // Create a new table row for each row and add it to the table body
+                var tr = document.createElement('tr');
+                tr.innerHTML = `<td>${row["場所"]}</td><td>${row["評価"]}</td><td>${row["レビュー数"]}</td>`;
+                tbody.appendChild(tr);
             });
         }).catch(function(error) {
             // If there's an error, log it to the console
@@ -44,3 +67,4 @@
     </script>
 </body>
 </html>
+
