@@ -168,7 +168,40 @@
             });
         }
 
-        /* ...existing JavaScript code... */
+        function sortData() {
+            var sortOption = document.getElementById('sortOption').value;
+            allData.sort(function(a, b) {
+                if (sortOption === "評価") {
+                    return parseFloat(b["評価"]) - parseFloat(a["評価"]);
+                } else {
+                    return parseInt(b["レビュー数"]) - parseInt(a["レビュー数"]);
+                }
+            });
+            currentPage = 0;
+            displayData(allData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+            checkButtonStatus();
+        }
+
+        function nextPage() {
+            if ((currentPage + 1) * itemsPerPage < allData.length) {
+                currentPage++;
+                displayData(allData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+                checkButtonStatus();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                displayData(allData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+                checkButtonStatus();
+            }
+        }
+
+        function checkButtonStatus() {
+            document.getElementById('prevButton').disabled = currentPage === 0;
+            document.getElementById('nextButton').disabled = (currentPage + 1) * itemsPerPage >= allData.length;
+        }
     </script>
 </body>
 </html>
