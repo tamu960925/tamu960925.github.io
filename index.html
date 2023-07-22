@@ -41,7 +41,7 @@
             max-width: 600px;
             margin: 20px auto;
         }
-        input, button {
+        select, button {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -79,14 +79,15 @@
     </header>
 
     <!-- Your main content goes here -->
-    <form onsubmit="event.preventDefault(); filterData();">
+    <form onsubmit="event.preventDefault(); sortData();">
         <fieldset>
-            <legend>Filter Reviews</legend>
-            <label for="filterRating">Minimum rating:</label>
-            <input type="number" id="filterRating" step="0.1" min="0" max="5" placeholder="4.2">
-            <label for="filterReviews">Minimum number of reviews:</label>
-            <input type="number" id="filterReviews" min="0" placeholder="10000">
-            <button type="submit">Apply Filters</button>
+            <legend>Sort Reviews</legend>
+            <label for="sortOption">Sort by:</label>
+            <select id="sortOption">
+                <option value="評価">Rating</option>
+                <option value="レビュー数">Number of reviews</option>
+            </select>
+            <button type="submit">Sort</button>
         </fieldset>
     </form>
     <table id="csvData">
@@ -133,13 +134,16 @@
             });
         }
 
-        function filterData() {
-            var filterRating = parseFloat(document.getElementById('filterRating').value);
-            var filterReviews = parseInt(document.getElementById('filterReviews').value);
-            var filteredData = allData.filter(function(row) {
-                return parseFloat(row["評価"]) >= filterRating && parseInt(row["レビュー数"]) >= filterReviews;
+        function sortData() {
+            var sortOption = document.getElementById('sortOption').value;
+            var sortedData = allData.sort(function(a, b) {
+                if (sortOption === "評価") {
+                    return parseFloat(b["評価"]) - parseFloat(a["評価"]);
+                } else {
+                    return parseInt(b["レビュー数"]) - parseInt(a["レビュー数"]);
+                }
             });
-            displayData(filteredData);
+            displayData(sortedData);
         }
     </script>
 </body>
