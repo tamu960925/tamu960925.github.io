@@ -162,45 +162,13 @@
             data.forEach(function(row) {
                 // Create a new table row for each row and add it to the table body
                 var tr = document.createElement('tr');
-                tr.innerHTML = `<td>${row["場所"]}</td><td>${row["評価"]}</td><td>${row["レビュー数"]}</td>`;
+                var locationLink = `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(row["場所"])}" target="_blank">${row["場所"]}</a>`;
+                tr.innerHTML = `<td>${locationLink}</td><td>${row["評価"]}</td><td>${row["レビュー数"]}</td>`;
                 tbody.appendChild(tr);
             });
         }
 
-        function sortData() {
-            var sortOption = document.getElementById('sortOption').value;
-            var sortedData = allData.sort(function(a, b) {
-                if (sortOption === "評価") {
-                    return parseFloat(b["評価"]) - parseFloat(a["評価"]);
-                } else {
-                    return parseInt(b["レビュー数"]) - parseInt(a["レビュー数"]);
-                }
-            });
-            currentPage = 0;
-            displayData(sortedData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
-            checkButtonStatus();
-        }
-
-        function nextPage() {
-            if ((currentPage + 1) * itemsPerPage < allData.length) {
-                currentPage++;
-                displayData(allData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
-                checkButtonStatus();
-            }
-        }
-
-        function prevPage() {
-            if (currentPage > 0) {
-                currentPage--;
-                displayData(allData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
-                checkButtonStatus();
-            }
-        }
-
-        function checkButtonStatus() {
-            document.getElementById('prevButton').disabled = currentPage === 0;
-            document.getElementById('nextButton').disabled = (currentPage + 1) * itemsPerPage >= allData.length;
-        }
+        /* ...existing JavaScript code... */
     </script>
 </body>
 </html>
