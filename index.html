@@ -73,6 +73,28 @@
         .footer-spacer {
             height: 60px;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .pagination button {
+            margin: 0 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            background-color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+        .pagination button:hover {
+            background-color: #0056b3;
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
     </style>
     <script src="https://d3js.org/d3.v5.min.js"></script> <!-- Include D3.js library -->
 </head>
@@ -105,6 +127,10 @@
             <!-- Rows will be added here -->
         </tbody>
     </table>
+    <div class="pagination">
+        <button id="prevButton" onclick="prevPage()">Previous</button>
+        <button id="nextButton" onclick="nextPage()">Next</button>
+    </div>
     <div class="footer-spacer"></div>
     <footer>
         <p>Contact me at: <a href="mailto:tamu960925@gmail.com" style="color: #212529;">tamu960925@gmail.com</a></p>
@@ -113,11 +139,14 @@
 
     <script>
         var allData = [];
+        var currentPage = 0;
+        var itemsPerPage = 50;
 
         // Use D3.js to load the CSV data
         d3.csv("csv/review.csv").then(function(data) {
             allData = data;
-            displayData(data);
+            displayData(data.slice(0, itemsPerPage));
+            checkButtonStatus();
         }).catch(function(error) {
             // If there's an error, log it to the console
             console.error('Error loading CSV:', error);
@@ -146,7 +175,30 @@
                     return parseInt(b["レビュー数"]) - parseInt(a["レビュー数"]);
                 }
             });
-            displayData(sortedData);
+            currentPage = 0;
+            displayData(sortedData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+            checkButtonStatus();
+        }
+
+        function nextPage() {
+            if ((currentPage + 1) * itemsPerPage < allData.length) {
+                currentPage++;
+                displayData(allData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+                checkButtonStatus();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                displayData(allData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+                checkButtonStatus();
+            }
+        }
+
+        function checkButtonStatus() {
+            document.getElementById('prevButton').disabled = currentPage === 0;
+            document.getElementById('nextButton').disabled = (currentPage + 1) * itemsPerPage >= allData.length;
         }
     </script>
 </body>
