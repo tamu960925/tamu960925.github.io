@@ -137,6 +137,8 @@ footer a {
     margin-bottom: 20px;
     display: flex;
     justify-content: center;
+    max-width: 90%;
+    margin: auto;
 }
 
 #citySwitch button {
@@ -150,5 +152,3 @@ footer a {
     transition: background-color 0.3s ease;
     white-space: nowrap;
 }
-
-
