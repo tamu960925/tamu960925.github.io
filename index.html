@@ -17,7 +17,7 @@
         }
         table {
             margin: auto;
-            width: 80%;
+            width: 100%;
             max-width: 600px;
         }
         td, th {
@@ -37,7 +37,7 @@
             background-color: #f2f2f2;
         }
         form {
-            width: 80%;
+            width: 90%;
             max-width: 600px;
             margin: 20px auto;
         }
@@ -64,6 +64,11 @@
             position: fixed;
             bottom: 0;
             width: 100%;
+        }
+        @media (max-width: 600px) {
+            footer {
+                position: relative;
+            }
         }
     </style>
     <script src="https://d3js.org/d3.v5.min.js"></script> <!-- Include D3.js library -->
