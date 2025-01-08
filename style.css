@@ -81,3 +81,53 @@ footer {
     padding: 10px;
   }
 }
+
+/* メモ帳スタイル */
+#memo {
+  margin-top: 40px;
+}
+
+.memo-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#memo-input {
+  width: 100%;
+  min-height: 150px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+#save-memo {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#save-memo:hover {
+  background-color: #0056b3;
+}
+
+#memo-list {
+  margin-top: 20px;
+}
+
+.memo-item {
+  background: #f9f9f9;
+  padding: 10px;
+  border-left: 4px solid #007bff;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
